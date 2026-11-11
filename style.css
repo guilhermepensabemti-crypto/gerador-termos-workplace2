@@ -1,0 +1,230 @@
+:root {
+    --primary-color: #0056b3;
+    --primary-hover: #004085;
+    --bg-color: #f4f7f6;
+    --card-bg: #ffffff;
+    --text-color: #333333;
+    --border-color: #cccccc;
+    --disabled-bg: #e9ecef;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.app-container {
+    background-color: var(--card-bg);
+    width: 100%;
+    max-width: 800px;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+header h1 {
+    font-size: 24px;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+header p {
+    font-size: 14px;
+    color: #666;
+}
+
+.form-step {
+    display: none;
+}
+
+.form-step.active {
+    display: block;
+}
+
+h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 8px;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.radio-card {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.radio-card:hover {
+    border-color: var(--primary-color);
+    background-color: #f8f9fa;
+}
+
+.radio-card input {
+    margin-right: 15px;
+    transform: scale(1.2);
+}
+
+.input-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.section-fieldset {
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.section-fieldset legend {
+    font-weight: 600;
+    padding: 0 5px;
+    color: var(--primary-color);
+}
+
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+}
+
+.checkbox-grid label {
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.radio-inline {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-next, .btn-submit {
+    background-color: var(--primary-color);
+    color: white;
+    margin-left: auto;
+}
+
+.btn-next:hover, .btn-submit:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-prev {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-prev:hover {
+    background-color: #5a6268;
+}
+
+.resumo-box {
+    background-color: #f8f9fa;
+    border: 1px solid var(--border-color);
+    padding: 18px;
+    border-radius: 6px;
+    max-height: 400px;
+    overflow-y: auto;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.disabled-section {
+    opacity: 0.5;
+    pointer-events: none;
+    background-color: var(--disabled-bg);
+}
+
+.step-indicator {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.notice-box {
+    background-color: #e8f4fd;
+    border-left: 4px solid var(--primary-color);
+    padding: 10px 14px;
+    margin-bottom: 15px;
+    font-size: 13px;
+    color: #0c5460;
+    border-radius: 2px;
+}

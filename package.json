@@ -1,0 +1,19 @@
+{
+  "name": "gerador-termo-responsabilidade",
+  "version": "1.0.0",
+  "description": "Gerador de Termo de Responsabilidade com preenchimento em PDF",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "termo",
+    "pdf"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^3.11.174"
+  }
+}

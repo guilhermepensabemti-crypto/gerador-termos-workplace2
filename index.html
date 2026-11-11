@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Termo de Responsabilidade - Workplace</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- PDF-Lib CDN -->
+    <script src="https://unpkg.com/pdf-lib@1.4.0/dist/pdf-lib.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Gerador de Termo de Responsabilidade</h1>
+            <p>Preencha os dados abaixo para gerar o termo oficial em PDF.</p>
+        </header>
+
+        <main>
+            <form id="termoForm">
+                <!-- TELA 1: Tipo de Atendimento -->
+                <section class="form-step active" id="step-1">
+                    <h2>1. Tipo de Atendimento</h2>
+                    <div class="radio-group">
+                        <label class="radio-card">
+                            <input type="radio" name="tipoAtendimento" value="Entrega" required checked>
+                            <span>Entrega de Equipamento</span>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="tipoAtendimento" value="Devolucao">
+                            <span>Devolução de Equipamento</span>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="tipoAtendimento" value="Incidente">
+                            <span>Incidente</span>
+                        </label>
+                    </div>
+                    <div class="button-container">
+                        <button type="button" class="btn-next" onclick="nextStep()">Próximo</button>
+                    </div>
+                </section>
+
+                <!-- TELA 2: Dados do Chamado -->
+                <section class="form-step" id="step-2">
+                    <h2>2. Dados do Chamado</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label for="chamado">Chamado:</label>
+                            <input type="text" id="chamado" name="chamado" required placeholder="Ex: INC123456">
+                        </div>
+                        <div class="input-group">
+                            <label for="tecnico">Técnico:</label>
+                            <input type="text" id="tecnico" name="tecnico" required placeholder="Nome do técnico">
+                        </div>
+                        <div class="input-group">
+                            <label for="dataAbertura">Data de Abertura do Chamado:</label>
+                            <input type="date" id="dataAbertura" name="dataAbertura" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="dataEntrega">Data de Entrega:</label>
+                            <input type="date" id="dataEntrega" name="dataEntrega" required>
+                        </div>
+                    </div>
+                    <div class="button-container">
+                        <button type="button" class="btn-prev" onclick="prevStep()">Voltar</button>
+                        <button type="button" class="btn-next" onclick="nextStep()">Próximo</button>
+                    </div>
+                </section>
+
+                <!-- TELA 3: Dados do Colaborador -->
+                <section class="form-step" id="step-3">
+                    <h2>3. Dados do Colaborador</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label for="colabNome">Nome:</label>
+                            <input type="text" id="colabNome" name="colabNome" required placeholder="Nome do colaborador">
+                        </div>
+                        <div class="input-group">
+                            <label for="colabContato">Contato:</label>
+                            <input type="text" id="colabContato" name="colabContato" required placeholder="Ex: (11) 98765-4321">
+                        </div>
+                        <div class="input-group">
+                            <label for="colabSite">Site:</label>
+                            <input type="text" id="colabSite" name="colabSite" required placeholder="Local / Site">
+                        </div>
+                        <div class="input-group">
+                            <label for="colabMatricula">Matrícula:</label>
+                            <input type="text" id="colabMatricula" name="colabMatricula" required placeholder="Matrícula">
+                        </div>
+                        <div class="input-group">
+                            <label for="colabGestor">Gestor Direto:</label>
+                            <input type="text" id="colabGestor" name="colabGestor" required placeholder="Nome do gestor">
+                        </div>
+                    </div>
+                    <div class="button-container">
+                        <button type="button" class="btn-prev" onclick="prevStep()">Voltar</button>
+                        <button type="button" class="btn-next" onclick="nextStep()">Próximo</button>
+                    </div>
+                </section>
+
+                <!-- TELA 4: Equipamento Entregue -->
+                <section class="form-step" id="step-4">
+                    <h2>4. Equipamento Entregue</h2>
+                    <fieldset class="section-fieldset" id="fieldset-entregue">
+                        <legend>Equipamentos</legend>
+                        <div class="checkbox-grid">
+                            <label><input type="checkbox" name="entregueEq" value="notebookPadrao"> Notebook Padrão</label>
+                            <label><input type="checkbox" name="entregueEq" value="notebookAvancado"> Notebook Avançado</label>
+                            <label><input type="checkbox" name="entregueEq" value="notebookPlus"> Notebook Plus</label>
+                            <label><input type="checkbox" name="entregueEq" value="ultrabook"> Ultrabook</label>
+                            <label><input type="checkbox" name="entregueEq" value="desktopPadrao"> Desktop Padrão</label>
+                            <label><input type="checkbox" name="entregueEq" value="desktopAvancado"> Desktop Avançado</label>
+                            <label><input type="checkbox" name="entregueEq" value="desktopPlus"> Desktop Plus</label>
+                            <label><input type="checkbox" name="entregueEq" value="macbook"> Macbook</label>
+                            <label><input type="checkbox" name="entregueEq" value="celular"> Celular</label>
+                            <label><input type="checkbox" name="entregueEq" value="ipadTablet"> Ipad/Tablet</label>
+                            <label><input type="checkbox" name="entregueEq" value="monitor"> Monitor</label>
+                        </div>
+
+                        <legend style="margin-top: 15px;">Periféricos</legend>
+                        <div class="checkbox-grid">
+                            <label><input type="checkbox" name="entreguePer" value="mouse"> Mouse</label>
+                            <label><input type="checkbox" name="entreguePer" value="teclado"> Teclado</label>
+                            <label><input type="checkbox" name="entreguePer" value="mochila"> Mochila</label>
+                            <label><input type="checkbox" name="entreguePer" value="dockstation"> Dockstation</label>
+                            <label><input type="checkbox" name="entreguePer" value="adaptadorUsbc"> Adaptador USB-C</label>
+                            <label><input type="checkbox" name="entreguePer" value="fone"> Fone</label>
+                            <label><input type="checkbox" name="entreguePer" value="cadeadoTrava"> Cadeado/Trava</label>
+                            <label><input type="checkbox" name="entreguePer" value="outros"> Outros</label>
+                        </div>
+
+                        <div class="input-grid" style="margin-top: 15px;">
+                            <div class="input-group">
+                                <label for="entregueAtivo">Ativo:</label>
+                                <input type="text" id="entregueAtivo" name="entregueAtivo">
+                            </div>
+                            <div class="input-group">
+                                <label for="entregueServiceTag">Service Tag:</label>
+                                <input type="text" id="entregueServiceTag" name="entregueServiceTag">
+                            </div>
+                            <div class="input-group">
+                                <label for="entregueModelo">Modelo:</label>
+                                <input type="text" id="entregueModelo" name="entregueModelo">
+                            </div>
+                            <div class="input-group">
+                                <label for="entregueMonitor">Monitor:</label>
+                                <input type="text" id="entregueMonitor" name="entregueMonitor">
+                            </div>
+                            <div class="input-group">
+                                <label for="entregueImei">IMEI:</label>
+                                <input type="text" id="entregueImei" name="entregueImei">
+                            </div>
+                            <div class="input-group">
+                                <label for="entregueLinha">Linha Móvel:</label>
+                                <input type="text" id="entregueLinha" name="entregueLinha">
+                            </div>
+                        </div>
+
+                        <div class="input-group" style="margin-top: 15px;">
+                            <label>Avarias:</label>
+                            <div class="radio-inline">
+                                <label><input type="radio" name="entregueAvarias" value="Sim"> Sim</label>
+                                <label><input type="radio" name="entregueAvarias" value="Nao" checked> Não</label>
+                            </div>
+                        </div>
+
+                        <div class="input-group" style="margin-top: 10px;">
+                            <label for="entregueObs">Observações:</label>
+                            <textarea id="entregueObs" name="entregueObs" rows="2"></textarea>
+                        </div>
+                    </fieldset>
+                    <div class="button-container">
+                        <button type="button" class="btn-prev" onclick="prevStep()">Voltar</button>
+                        <button type="button" class="btn-next" onclick="nextStep()">Próximo</button>
+                    </div>
+                </section>
+
+                <!-- TELA 5: Equipamento Recolhido -->
+                <section class="form-step" id="step-5">
+                    <h2>5. Equipamento Recolhido</h2>
+                    <fieldset class="section-fieldset" id="fieldset-recolhido">
+                        <legend>Equipamentos</legend>
+                        <div class="checkbox-grid">
+                            <label><input type="checkbox" name="recolhidoEq" value="notebookPadrao"> Notebook Padrão</label>
+                            <label><input type="checkbox" name="recolhidoEq" value="notebookAvancado"> Notebook Avançado</label>
+                            <label><input type="checkbox" name="recolhidoEq" value="notebookPlus"> Notebook Plus</label>
+                            <label><input type="checkbox" name="recolhidoEq" value="ultrabook"> Ultrabook</label>
+                            <label><input type="checkbox" name="recolhidoEq" value="desktopPadrao"> Desktop Padrão</label>
+                            <label><input type="checkbox" name="recolhidoEq" value="desktopAvancado"> Desktop Avançado</label>
+                            <label><input type="checkbox" name="recolhidoEq" value="desktopPlus"> Desktop Plus</label>
+                            <label><input type="checkbox" name="recolhidoEq" value="macbook"> Macbook</label>
+                            <label><input type="checkbox" name="recolhidoEq" value="celular"> Celular</label>
+                            <label><input type="checkbox" name="recolhidoEq" value="ipadTablet"> Ipad/Tablet</label>
+                            <label><input type="checkbox" name="recolhidoEq" value="monitor"> Monitor</label>
+                        </div>
+
+                        <legend style="margin-top: 15px;">Periféricos</legend>
+                        <div class="checkbox-grid">
+                            <label><input type="checkbox" name="recolhidoPer" value="mouse"> Mouse</label>
+                            <label><input type="checkbox" name="recolhidoPer" value="teclado"> Teclado</label>
+                            <label><input type="checkbox" name="recolhidoPer" value="mochila"> Mochila</label>
+                            <label><input type="checkbox" name="recolhidoPer" value="dockstation"> Dockstation</label>
+                            <label><input type="checkbox" name="recolhidoPer" value="adaptadorUsbc"> Adaptador USB-C</label>
+                            <label><input type="checkbox" name="recolhidoPer" value="fone"> Fone</label>
+                            <label><input type="checkbox" name="recolhidoPer" value="cadeadoTrava"> Cadeado/Trava</label>
+                            <label><input type="checkbox" name="recolhidoPer" value="outros"> Outros</label>
+                        </div>
+
+                        <div class="input-grid" style="margin-top: 15px;">
+                            <div class="input-group">
+                                <label for="recolhidoAtivo">Ativo:</label>
+                                <input type="text" id="recolhidoAtivo" name="recolhidoAtivo">
+                            </div>
+                            <div class="input-group">
+                                <label for="recolhidoServiceTag">Service Tag:</label>
+                                <input type="text" id="recolhidoServiceTag" name="recolhidoServiceTag">
+                            </div>
+                            <div class="input-group">
+                                <label for="recolhidoModelo">Modelo:</label>
+                                <input type="text" id="recolhidoModelo" name="recolhidoModelo">
+                            </div>
+                            <div class="input-group">
+                                <label for="recolhidoMonitor">Monitor:</label>
+                                <input type="text" id="recolhidoMonitor" name="recolhidoMonitor">
+                            </div>
+                            <div class="input-group">
+                                <label for="recolhidoImei">IMEI:</label>
+                                <input type="text" id="recolhidoImei" name="recolhidoImei">
+                            </div>
+                            <div class="input-group">
+                                <label for="recolhidoLinha">Linha Móvel:</label>
+                                <input type="text" id="recolhidoLinha" name="recolhidoLinha">
+                            </div>
+                        </div>
+
+                        <div class="checkbox-grid" style="margin-top: 15px;">
+                            <label><input type="checkbox" name="recolhidoRestauracao" value="sim"> Restaurou iCloud/Google</label>
+                            <label><input type="checkbox" name="recolhidoPerfeitas" value="sim"> Perfeitas Condições</label>
+                        </div>
+                    </fieldset>
+                    <div class="button-container">
+                        <button type="button" class="btn-prev" onclick="prevStep()">Voltar</button>
+                        <button type="button" class="btn-next" onclick="nextStep()">Próximo</button>
+                    </div>
+                </section>
+
+                <!-- TELA 6: Resumo -->
+                <section class="form-step" id="step-6">
+                    <h2>6. Resumo das Informações</h2>
+                    <div id="resumoConteudo" class="resumo-box">
+                        <!-- Preenchido dinamicamente via JS -->
+                    </div>
+                    <div class="button-container">
+                        <button type="button" class="btn-prev" onclick="prevStep()">Voltar</button>
+                        <button type="button" class="btn-submit" id="btnGerarPdf">Gerar Termo PDF</button>
+                    </div>
+                </section>
+            </form>
+        </main>
+    </div>
+    <!-- Scripts na ordem correta -->
+    <script src="pdf-map.js"></script>
+    <script src="pdf-generator.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
