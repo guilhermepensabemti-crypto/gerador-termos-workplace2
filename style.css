@@ -228,3 +228,9 @@ button {
     color: #0c5460;
     border-radius: 2px;
 }
+
+
+/* Campos condicionais de descrição de periféricos */
+.outros-periferico-field[hidden] {
+    display: none !important;
+}
