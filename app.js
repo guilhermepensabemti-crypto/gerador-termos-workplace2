@@ -128,15 +128,44 @@ document.querySelectorAll('input[name="tipoAtendimento"]').forEach(radio => {
     radio.addEventListener('change', applyBusinessRules);
 });
 
+function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, char => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[char]);
+}
+
 function formatField(label, value) {
     if (!value) return '';
-    return `<div><strong>${label}:</strong> ${value}</div>`;
+    return `<div><strong>${escapeHtml(label)}:</strong> ${escapeHtml(value)}</div>`;
 }
 
 function formatList(label, items) {
     if (!items || items.length === 0) return '';
-    return `<div><strong>${label}:</strong> ${items.join(', ')}</div>`;
+    return `<div><strong>${escapeHtml(label)}:</strong> ${items.map(escapeHtml).join(', ')}</div>`;
 }
+
+function setupOutrosPerifericos() {
+    [
+        { name: 'entreguePer', wrapperId: 'entregueOutrosWrap', inputId: 'entregueOutrosDescricao' },
+        { name: 'recolhidoPer', wrapperId: 'recolhidoOutrosWrap', inputId: 'recolhidoOutrosDescricao' }
+    ].forEach(({ name, wrapperId, inputId }) => {
+        const checkbox = document.querySelector(`input[name="${name}"][value="outros"]`);
+        const wrapper = document.getElementById(wrapperId);
+        const input = document.getElementById(inputId);
+        if (!checkbox || !wrapper || !input) return;
+
+        const updateVisibility = () => {
+            wrapper.hidden = !checkbox.checked;
+            input.required = checkbox.checked;
+            if (!checkbox.checked) input.value = '';
+        };
+
+        checkbox.addEventListener('change', updateVisibility);
+        updateVisibility();
+    });
+}
+
+setupOutrosPerifericos();
 
 function buildResumo() {
     const tipo = getSelectedTipo() || 'Não selecionado';
@@ -178,6 +207,7 @@ function buildResumo() {
     if (tipo !== 'Devolucao') {
         const eqEntregues = getCheckedLabels('entregueEq');
         const perEntregues = getCheckedLabels('entreguePer');
+        const outrosDescricao = document.getElementById('entregueOutrosDescricao')?.value || '';
         const ativo = document.getElementById('entregueAtivo')?.value;
         const tag = document.getElementById('entregueServiceTag')?.value;
         const mod = document.getElementById('entregueModelo')?.value;
@@ -192,6 +222,7 @@ function buildResumo() {
                 <h3 style="color: #0056b3; margin-bottom: 6px;">3. Equipamento Entregue</h3>
                 ${formatList('Equipamentos', eqEntregues)}
                 ${formatList('Periféricos', perEntregues)}
+                ${formatField('Descrição de outros periféricos', outrosDescricao)}
                 ${formatField('Ativo', ativo)}
                 ${formatField('Service Tag', tag)}
                 ${formatField('Modelo', mod)}
@@ -207,6 +238,7 @@ function buildResumo() {
     if (tipo !== 'Entrega') {
         const eqRecolhidos = getCheckedLabels('recolhidoEq');
         const perRecolhidos = getCheckedLabels('recolhidoPer');
+        const outrosDescricao = document.getElementById('recolhidoOutrosDescricao')?.value || '';
         const ativo = document.getElementById('recolhidoAtivo')?.value;
         const tag = document.getElementById('recolhidoServiceTag')?.value;
         const mod = document.getElementById('recolhidoModelo')?.value;
@@ -221,6 +253,7 @@ function buildResumo() {
                 <h3 style="color: #0056b3; margin-bottom: 6px;">4. Equipamento Recolhido</h3>
                 ${formatList('Equipamentos', eqRecolhidos)}
                 ${formatList('Periféricos', perRecolhidos)}
+                ${formatField('Descrição de outros periféricos', outrosDescricao)}
                 ${formatField('Ativo', ativo)}
                 ${formatField('Service Tag', tag)}
                 ${formatField('Modelo', mod)}
@@ -267,6 +300,7 @@ function collectFormData() {
         entregue: {
             ativos: getCheckedValues('entregueEq'),
             perifericos: getCheckedValues('entreguePer'),
+            outrosDescricao: document.getElementById('entregueOutrosDescricao')?.value.trim() || '',
             ativo: document.getElementById('entregueAtivo')?.value || '',
             serviceTag: document.getElementById('entregueServiceTag')?.value || '',
             modelo: document.getElementById('entregueModelo')?.value || '',
@@ -279,6 +313,7 @@ function collectFormData() {
         recolhido: {
             ativos: getCheckedValues('recolhidoEq'),
             perifericos: getCheckedValues('recolhidoPer'),
+            outrosDescricao: document.getElementById('recolhidoOutrosDescricao')?.value.trim() || '',
             ativo: document.getElementById('recolhidoAtivo')?.value || '',
             serviceTag: document.getElementById('recolhidoServiceTag')?.value || '',
             modelo: document.getElementById('recolhidoModelo')?.value || '',

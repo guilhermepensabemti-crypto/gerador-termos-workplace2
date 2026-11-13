@@ -59,6 +59,7 @@ const PDF_MAP = {
       mouse: { x: 471.7, y: 568.7, width: 10.1, height: 10.1, pagina: 0 },
       outros: { x: 326.0, y: 549.2, width: 10.1, height: 10.1, pagina: 0 }
     },
+    outrosDescricao: { x: 370, y: 551.5, maxWidth: 185, pagina: 0 },
     campos: {
       ativo: { x: 55, y: 528, width: 240, height: 10, pagina: 0 },
       serviceTag: { x: 135, y: 511, width: 160, height: 10, pagina: 0 },
@@ -102,6 +103,7 @@ const PDF_MAP = {
       mouse: { x: 471.4, y: 369.9, width: 10.1, height: 10.1, pagina: 0 },
       outros: { x: 325.6, y: 350.4, width: 10.1, height: 10.1, pagina: 0 }
     },
+    outrosDescricao: { x: 370, y: 352.7, maxWidth: 185, pagina: 0 },
     campos: {
       ativo: { x: 55, y: 329, width: 240, height: 10, pagina: 0 },
       serviceTag: { x: 136, y: 310, width: 160, height: 10, pagina: 0 },
