@@ -84,6 +84,19 @@ async function generatePdfTerm(data) {
         drawTextOn(page1, text, x, y, size, isBold);
     };
 
+    const drawFittedText = (targetPage, text, coord, size = 8) => {
+        if (!text || !targetPage || !coord) return;
+        let value = String(text).trim();
+        const maxWidth = coord.maxWidth || 185;
+        while (value.length > 0 && font.widthOfTextAtSize(value, size) > maxWidth) {
+            value = value.slice(0, -1);
+        }
+        if (value !== String(text).trim() && value.length > 1) {
+            value = value.slice(0, -1) + '…';
+        }
+        drawTextOn(targetPage, value, coord.x, coord.y, size);
+    };
+
     const drawCheck = (coord) => {
         if (!coord) return;
         page1.drawText('X', {
@@ -166,6 +179,9 @@ async function generatePdfTerm(data) {
                 }
             });
         }
+        if (data.recolhido.perifericos?.includes('outros')) {
+            drawFittedText(page1, data.recolhido.outrosDescricao, PDF_MAP.recolhido.outrosDescricao, 7.5);
+        }
         drawText(data.recolhido.ativo, PDF_MAP.recolhido.campos.ativo.x, PDF_MAP.recolhido.campos.ativo.y, 9);
         drawText(data.recolhido.serviceTag, PDF_MAP.recolhido.campos.serviceTag.x, PDF_MAP.recolhido.campos.serviceTag.y, 9);
         drawText(data.recolhido.modelo, PDF_MAP.recolhido.campos.modelo.x, PDF_MAP.recolhido.campos.modelo.y, 9);
@@ -205,6 +221,9 @@ async function generatePdfTerm(data) {
                     drawCheck(PDF_MAP.entregue.perifericos[per]);
                 }
             });
+        }
+        if (data.entregue.perifericos?.includes('outros')) {
+            drawFittedText(page1, data.entregue.outrosDescricao, PDF_MAP.entregue.outrosDescricao, 7.5);
         }
         drawText(data.entregue.ativo, PDF_MAP.entregue.campos.ativo.x, PDF_MAP.entregue.campos.ativo.y, 9);
         drawText(data.entregue.serviceTag, PDF_MAP.entregue.campos.serviceTag.x, PDF_MAP.entregue.campos.serviceTag.y, 9);
